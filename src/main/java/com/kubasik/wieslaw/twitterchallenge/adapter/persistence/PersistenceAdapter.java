@@ -19,12 +19,13 @@ import static java.util.Collections.emptyList;
 @Adapter
 public class PersistenceAdapter implements TweetPersistenceCommand, TweetPersistenceQuery, FolloweesPersistenceCommand {
 
-    private final Map<String, List<Tweet>> userTweets = new ConcurrentHashMap<>();
-    private final Map<String, List<String>> userFollowees = new ConcurrentHashMap<>();
+    final Map<String, List<Tweet>> userTweets = new ConcurrentHashMap<>();
+    final Map<String, List<String>> userFollowees = new ConcurrentHashMap<>();
 
     @Override
-    public Tweet postTweetByUsername(String username, Tweet tweet) {
-        userTweets.merge(username, Collections.singletonList(tweet), CollectionUtils::concatenateListsAndSort);
+    public Tweet postTweet(Tweet tweet) {
+        userTweets.merge(tweet.getPostedByUsername(),
+                Collections.singletonList(tweet), CollectionUtils::concatenateListsAndSort);
         return tweet;
     }
 

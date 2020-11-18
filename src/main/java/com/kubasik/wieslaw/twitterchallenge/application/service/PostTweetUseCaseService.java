@@ -17,7 +17,7 @@ public class PostTweetUseCaseService implements PostTweetUseCase {
     @Override
     public Tweet postTweet(String username, String message) {
         Tweet tweet = buildTweet(username, message);
-        tweetPersistenceCommand.postTweetByUsername(username, tweet);
+        tweetPersistenceCommand.postTweet(tweet);
         return tweet;
     }
 
