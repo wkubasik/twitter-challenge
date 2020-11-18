@@ -40,7 +40,7 @@ public class UsersController {
     private final UsersApiService apiService;
 
     @PostMapping(value = "tweet", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Create a tweet", description = "This action create user if does not exist")
+    @Operation(summary = "Create a tweet", description = "This action creates the user if does not exist")
     @ApiResponseBadRequest
     @ApiResponseInternalServerError
     @ApiResponse(responseCode = "201", description = "Created",
