@@ -27,13 +27,13 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ErrorDto> badRequest(ConstraintViolationException exception) {
+    public ResponseEntity<ErrorDto> badRequestConstraint(ConstraintViolationException exception) {
         log.debug(exception.getMessage(), exception);
         return new ResponseEntity<>(getErrorDto(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorDto> methodArgumentNotValidException(MethodArgumentNotValidException exception) {
+    public ResponseEntity<ErrorDto> badRequestMethodArgument(MethodArgumentNotValidException exception) {
         log.debug(exception.getMessage(), exception);
         return new ResponseEntity<>(getErrorDto(exception.getBindingResult().toString()), HttpStatus.BAD_REQUEST);
     }
