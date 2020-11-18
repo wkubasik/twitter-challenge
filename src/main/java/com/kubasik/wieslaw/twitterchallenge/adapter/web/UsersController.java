@@ -33,21 +33,21 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "User tweets API", description = "User tweets and followees.")
+@Tag(name = "Users API", description = "User tweets and followees.")
 @RequestMapping(value = "users/{username}")
 public class UsersController {
 
     private final UsersApiService apiService;
 
     @PostMapping(value = "tweet", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Create tweet")
+    @Operation(summary = "Create a tweet")
     @ApiResponseBadRequest
     @ApiResponseInternalServerError
     @ApiResponse(responseCode = "201", description = "Created",
             content = @Content(schema = @Schema(implementation = TweetDto.class)))
     @ResponseStatus(HttpStatus.CREATED)
-    public TweetDto postTweet(@Valid @NotBlank @PathVariable String username,
-                              @Valid @RequestBody TweetPostDto tweetPostDto) {
+    public TweetDto postTweet(@NotBlank @Valid @PathVariable String username,
+                              @RequestBody @Valid TweetPostDto tweetPostDto) {
         return apiService.postTweet(username, tweetPostDto);
     }
 
@@ -58,7 +58,7 @@ public class UsersController {
     @ApiResponseInternalServerError
     @ApiResponse(responseCode = "200", description = "Ok",
             content = @Content(array = @ArraySchema(schema = @Schema(implementation = TweetDto.class))))
-    public List<TweetDto> getMyTweets(@Valid @NotBlank @PathVariable String username) {
+    public List<TweetDto> getMyTweets(@NotBlank @Valid @PathVariable String username) {
         return apiService.getMyTweets(username);
     }
 
@@ -69,8 +69,8 @@ public class UsersController {
     @ApiResponseBadRequest
     @ApiResponseInternalServerError
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void follow(@Valid @NotBlank @PathVariable String username,
-                       @Valid @RequestBody FolloweePostDto followeePostDto) {
+    public void follow(@NotBlank @Valid @PathVariable String username,
+                       @RequestBody @Valid FolloweePostDto followeePostDto) {
         apiService.follow(username, followeePostDto);
     }
 
@@ -81,7 +81,7 @@ public class UsersController {
     @ApiResponseInternalServerError
     @ApiResponse(responseCode = "200", description = "Ok",
             content = @Content(array = @ArraySchema(schema = @Schema(implementation = TweetDto.class))))
-    public List<TweetDto> getMyFolloweesTweets(@Valid @NotBlank @PathVariable String username) {
+    public List<TweetDto> getMyFolloweesTweets(@NotBlank @Valid @PathVariable String username) {
         return apiService.getMyFolloweesTweets(username);
     }
 }

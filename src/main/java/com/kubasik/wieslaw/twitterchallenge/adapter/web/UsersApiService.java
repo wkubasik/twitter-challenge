@@ -38,7 +38,7 @@ public class UsersApiService {
     }
 
     public void follow(String username, FolloweePostDto followeePostDto) {
-        followUseCase.follow(username, followeePostDto.getUsername().trim());
+        followUseCase.follow(username, followeePostDto.getUsernameToFollow().trim());
     }
 
     public List<TweetDto> getMyFolloweesTweets(String username) {

@@ -7,8 +7,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import javax.validation.ConstraintViolationException;
 
 @Slf4j
 @ControllerAdvice
@@ -19,17 +22,29 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ErrorDto> notFound(RuntimeException exception) {
-        log.info(exception.getMessage(), exception);
-        return new ResponseEntity<>(getErrorDto(exception), HttpStatus.NOT_FOUND);
+        log.debug(exception.getMessage(), exception);
+        return new ResponseEntity<>(getErrorDto(exception.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorDto> badRequest(ConstraintViolationException exception) {
+        log.debug(exception.getMessage(), exception);
+        return new ResponseEntity<>(getErrorDto(exception.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorDto> methodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        log.debug(exception.getMessage(), exception);
+        return new ResponseEntity<>(getErrorDto(exception.getBindingResult().toString()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorDto> serverError(RuntimeException exception) {
         log.error(exception.getMessage(), exception);
-        return new ResponseEntity<>(getErrorDto(exception), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(getErrorDto(exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private ErrorDto getErrorDto(RuntimeException exception) {
-        return new ErrorDto(exception.getMessage(), currentDateTime.now());
+    private ErrorDto getErrorDto(String message) {
+        return new ErrorDto(message, currentDateTime.now());
     }
 }

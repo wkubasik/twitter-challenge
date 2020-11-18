@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import static java.util.Collections.emptyList;
+
 @Adapter
 public class PersistenceAdapter implements TweetPersistenceCommand, TweetPersistenceQuery, FolloweesPersistenceCommand {
 
@@ -42,8 +44,8 @@ public class PersistenceAdapter implements TweetPersistenceCommand, TweetPersist
     @Override
     public List<Tweet> getFolloweesTweetsByUsernameOrdered(String username) {
         checkIfUsernameExists(username);
-        return userFollowees.get(username).stream()
-                .flatMap(followee -> userTweets.getOrDefault(followee, Collections.emptyList()).stream())
+        return userFollowees.getOrDefault(username, emptyList()).stream()
+                .flatMap(followee -> userTweets.getOrDefault(followee, emptyList()).stream())
                 .sorted()
                 .collect(Collectors.toList());
     }

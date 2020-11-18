@@ -14,5 +14,5 @@ public class FolloweePostDto {
 
     @NotBlank
     @Schema(example = USERNAME)
-    private String username;
+    private String usernameToFollow;
 }
