@@ -2,7 +2,8 @@
 Twitter Challenge
 
 Implemented with Java 11.  
-Tests in Groovy/Spock.
+Tests in Groovy/Spock.  
+Integration tests can be run with `mvn verify -P integration`.
 
 ## Run with maven
 You can run this application with maven command:
