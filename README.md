@@ -13,7 +13,7 @@ You can run this application with maven command:
 After starting the application, documentation is available here:  
 http://localhost:8080/swagger-ui.html
 
-The documentation is interactive and you can use it to test the API.
+Documentation is interactive and you can use it to test the API.
 
 ## Run with docker (optional):
 - `mvn install`
