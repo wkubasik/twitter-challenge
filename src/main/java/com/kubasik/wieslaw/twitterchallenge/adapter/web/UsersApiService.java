@@ -6,8 +6,8 @@ import com.kubasik.wieslaw.twitterchallenge.adapter.web.dto.TweetPostDto;
 import com.kubasik.wieslaw.twitterchallenge.annotations.ApiService;
 import com.kubasik.wieslaw.twitterchallenge.application.port.in.FollowUseCase;
 import com.kubasik.wieslaw.twitterchallenge.application.port.in.GetFolloweesTweetsUseCase;
+import com.kubasik.wieslaw.twitterchallenge.application.port.in.GetTweetsUseCase;
 import com.kubasik.wieslaw.twitterchallenge.application.port.in.PostTweetUseCase;
-import com.kubasik.wieslaw.twitterchallenge.application.service.GetTweetsUseCaseService;
 import com.kubasik.wieslaw.twitterchallenge.domain.Tweet;
 import com.kubasik.wieslaw.twitterchallenge.mappers.TweetMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import static com.kubasik.wieslaw.twitterchallenge.mappers.TweetMapper.mapToTwee
 public class UsersApiService {
 
     private final PostTweetUseCase postTweetUseCase;
-    private final GetTweetsUseCaseService myTweetsUseCaseService;
+    private final GetTweetsUseCase myTweetsUseCase;
     private final FollowUseCase followUseCase;
     private final GetFolloweesTweetsUseCase getFolloweesTweetsUseCase;
 
@@ -32,7 +32,7 @@ public class UsersApiService {
     }
 
     public List<TweetDto> getMyTweets(String username) {
-        return myTweetsUseCaseService.getTweets(username).stream()
+        return myTweetsUseCase.getTweets(username).stream()
                 .map(TweetMapper::mapToTweetDto)
                 .collect(Collectors.toList());
     }
